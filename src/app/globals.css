@@ -1,26 +1,387 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: light;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+* {
+  box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+html, body {
+  margin: 0;
+  min-height: 100%;
+  background: #f7f5f1;
+  color: #292638;
+  font-family: Arial, "Noto Sans JP", sans-serif;
+}
+.page {
+  min-height: 100vh;
+  background: #f7f5f1;
+  color: #292638;
+  padding: 0 6%;
+  font-family: Arial, "Noto Sans JP", sans-serif;
+}
+.header {
+  height: 76px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #e8e3dd;
+  letter-spacing: .12em;
+  font-size: 12px;
+  font-weight: 800;
+}
+.logo { display: flex; align-items: center; gap: 10px; }
+.logoIcon {
+  width: 34px; height: 34px; display: grid; place-items: center;
+  color: white; background: #8875bd; border-radius: 10px;
+}
+.headerTag { color: #99929f; font-size: 10px; letter-spacing: .16em; }
+.hero { text-align: center; padding: 65px 0 48px; }
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 7px;
+  color: #8875bd; font-size: 11px; letter-spacing: .2em; font-weight: 800;
+}
+.hero h1 { font-size: clamp(30px, 4vw, 48px); line-height: 1.45; letter-spacing: .04em; margin: 17px 0 12px; }
+.hero h1 span { color: #8875bd; }
+.hero p { color: #89838e; font-size: 13px; line-height: 2; }
+.workspace {
+  max-width: 1120px; margin: 0 auto 70px;
+  display: grid; grid-template-columns: minmax(300px, .85fr) minmax(440px, 1.15fr);
+  gap: 28px; align-items: start;
+}
+.formPanel, .previewPanel {
+  background: #fff; border: 1px solid #eeeae5; border-radius: 18px;
+  padding: 28px; box-shadow: 0 8px 30px #39304408;
+}
+.sectionHeading { display: flex; align-items: center; gap: 13px; margin-bottom: 27px; }
+.step {
+  width: 34px; height: 34px; display: grid; place-items: center;
+  background: #f0ecf8; color: #8875bd; border-radius: 10px;
+  font-size: 12px; font-weight: 800;
+}
+.sectionHeading h2 { font-size: 17px; margin: 0 0 5px; }
+.sectionHeading p { font-size: 11px; color: #99929f; margin: 0; }
+.field { margin-bottom: 19px; }
+.field label { display: block; font-size: 12px; font-weight: 700; margin-bottom: 8px; }
+.field input, .field select, .field textarea {
+  width: 100%; border: 1px solid #e8e4ed; border-radius: 9px;
+  background: #fcfbfd; color: #383342; padding: 12px 13px;
+  font: inherit; font-size: 13px; outline: none; transition: border .2s;
+}
+.field input:focus, .field select:focus, .field textarea:focus { border-color: #a18dce; }
+.selectWrap { position: relative; }
+.selectWrap svg { position: absolute; left: 12px; top: 13px; color: #9b8bb9; pointer-events: none; }
+.selectWrap select { padding-left: 36px; }
+.field textarea { resize: vertical; min-height: 72px; }
+.colorList { display: flex; flex-wrap: wrap; gap: 12px; padding: 5px 2px; }
+.colorButton {
+  width: 28px; height: 28px; border: 3px solid white; border-radius: 50%;
+  cursor: pointer; box-shadow: 0 0 0 1px #e4e0e8; transition: transform .15s;
+}
+.colorButton:hover { transform: scale(1.12); }
+.colorSelected { box-shadow: 0 0 0 2px #62528e; transform: scale(1.12); }
+.ticketStage {
+  background: #f5f2f8; border: 1px dashed #e1d9ed; border-radius: 14px;
+  padding: 34px 18px; display: flex; justify-content: center; overflow: hidden;
+}
+.ticket {
+  width: 100%; max-width: 520px; min-height: 290px; display: flex;
+  background: #fffdf9; border-radius: 9px; overflow: hidden;
+  box-shadow: 0 12px 30px #3a2c501c; color: #363044;
+}
+.ticketMain { flex: 1; min-width: 0; padding: 21px 22px 15px; }
+.ticketTop { display: flex; justify-content: space-between; font-size: 8px; letter-spacing: .15em; color: #948b9c; font-weight: 800; }
+.ticketTitle { font-family: Georgia, serif; font-size: clamp(18px, 2.5vw, 25px); letter-spacing: .09em; margin-top: 17px; }
+.ticketSubtitle { font-size: 7px; letter-spacing: .22em; color: #a69eaa; margin-top: 4px; }
+.route { display: flex; align-items: center; gap: 12px; margin: 21px 0 17px; }
+.route > div:first-child, .routeDestination { display: flex; flex-direction: column; min-width: 60px; }
+.routeLabel { color: #aaa2ae; font-size: 7px; letter-spacing: .15em; }
+.route strong { font-family: Georgia, serif; font-size: 21px; margin: 2px 0; }
+.route small { font-size: 8px; color: #99919e; }
+.routeLine { flex: 1; display: flex; align-items: center; gap: 5px; color: #a48ae8; }
+.routeLine div { flex: 1; border-top: 1px dashed #c9bfd9; }
+.routeDestination { text-align: right; }
+.ticketInfo {
+  display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px;
+  padding: 11px 0; border-top: 1px solid #eee9e4; border-bottom: 1px solid #eee9e4;
+}
+.ticketInfo div { min-width: 0; display: flex; flex-direction: column; gap: 5px; }
+.ticketInfo span { color: #a49ca8; font-size: 6px; letter-spacing: .1em; }
+.ticketInfo strong { font-size: 9px; overflow-wrap: anywhere; }
+.patternArea { display: flex; align-items: center; gap: 20px; padding: 16px 0 12px; }
+.patternSvg { width: 128px; height: 128px; flex-shrink: 0; overflow: visible; }
+.memoryText { min-width: 0; flex: 1; }
+.memoryText span { font-size: 6px; letter-spacing: .13em; color: #a69eaa; }
+.memoryText p { font-size: 10px; line-height: 1.7; overflow-wrap: anywhere; margin: 7px 0; }
+.memoryText small { color: #b0a8b3; font-size: 6px; letter-spacing: .13em; }
+.ticketFooter {
+  display: flex; justify-content: space-between; border-top: 1px solid #eee9e4;
+  padding-top: 9px; color: #aaa2ae; font-size: 6px; letter-spacing: .14em;
+}
+.ticketStub {
+  width: 45px; flex-shrink: 0; display: flex; align-items: center;
+  justify-content: space-around; flex-direction: column; color: white;
+  padding: 13px 0; overflow: hidden;
+}
+.stubVertical {
+  writing-mode: vertical-rl; font-size: 7px; letter-spacing: .18em;
+  white-space: nowrap; opacity: .9;
+}
+.stubStar { font-size: 18px; }
+.stubDate { writing-mode: vertical-rl; font-size: 7px; letter-spacing: .08em; }
+.downloadButton {
+  width: 100%; margin-top: 20px; padding: 15px; border: 0; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  background: #8875bd; color: white; font-size: 13px; font-weight: 700;
+  cursor: pointer; transition: background .2s, transform .2s;
+}
+.downloadButton:hover { background: #7561aa; transform: translateY(-1px); }
+.downloadButton:disabled { opacity: .6; cursor: wait; }
+.note { text-align: center; color: #aaa3ad; font-size: 10px; line-height: 1.7; margin: 12px 0 0; }
+.footer {
+  text-align: center; border-top: 1px solid #e8e3dd; padding: 25px 0 32px;
+  color: #aaa2ae; font-size: 9px; letter-spacing: .2em;
+}
+@media (max-width: 850px) {
+  .workspace { grid-template-columns: 1fr; max-width: 600px; }
+  .hero { padding: 48px 0 35px; }
+}
+@media (max-width: 520px) {
+  .page { padding: 0 4%; }
+  .header { height: 62px; }
+  .headerTag { font-size: 8px; }
+  .formPanel, .previewPanel { padding: 20px 15px; }
+  .ticketStage { padding: 20px 8px; }
+  .ticketMain { padding: 16px 13px 12px; }
+  .ticketStub { width: 36px; }
+  .route { gap: 7px; }
+  .route strong { font-size: 18px; }
+  .ticketInfo { gap: 5px; }
+  .ticketInfo strong { font-size: 8px; }
+  .patternSvg { width: 90px; height: 90px; }
+}
+
+/* マイコレクション */
+.collectionSaveButton {
+  width: 100%;
+  margin-top: 10px;
+  padding: 14px;
+  border: 1px solid #cfc3e5;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: #f5f1fb;
+  color: #7561aa;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.collectionSaveButton:hover { background: #ebe4f7; }
+.collectionSaveButton:disabled { opacity: .6; cursor: wait; }
+
+.collectionSection {
+  margin-top: 35px;
+  padding-top: 25px;
+  border-top: 1px solid #e9e3ed;
+}
+.collectionHeading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+}
+.collectionEyebrow {
+  color: #a48ae8;
+  font-size: 9px;
+  letter-spacing: .16em;
+  font-weight: 800;
+}
+.collectionHeading h2 {
+  margin: 4px 0 0;
+  font-family: Georgia, serif;
+  font-size: 20px;
+  letter-spacing: .1em;
+  color: #443b54;
+}
+.collectionCount {
+  color: #92869f;
+  font-size: 10px;
+  letter-spacing: .1em;
+}
+.collectionEmpty {
+  padding: 35px 15px;
+  border: 1px dashed #d9d0e5;
+  border-radius: 12px;
+  text-align: center;
+  color: #a397b3;
+}
+.collectionEmpty p { margin: 10px 0 5px; font-size: 13px; }
+.collectionEmpty span { font-size: 10px; }
+.collectionGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 14px;
+}
+.collectionCard {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid #e9e3ed;
+  border-radius: 12px;
+  background: #fff;
+}
+.collectionCard img {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #fffdf9;
+}
+.collectionCardInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 12px;
+  padding-right: 38px;
+}
+.collectionCardInfo strong {
+  color: #443b54;
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+.collectionCardInfo span { color: #8875bd; font-size: 11px; }
+.collectionCardInfo small { color: #9d95a3; font-size: 9px; }
+.deleteTicketButton {
+  position: absolute;
+  right: 9px;
+  bottom: 12px;
+  border: 0;
+  border-radius: 7px;
+  padding: 7px;
+  background: #f8f3f5;
+  color: #bd7888;
+  cursor: pointer;
+}
+.deleteTicketButton:hover { background: #f4e5e9; }
+
+/* チケット詳細ポップアップ */
+.collectionCard {
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.collectionCard:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 24px #3a2c5020;
+}
+
+.ticketModalOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: #211b2dcc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.ticketModal {
+  position: relative;
+  width: 100%;
+  max-width: 520px;
+  max-height: 90vh;
+  overflow-y: auto;
+  background: #fffdf9;
+  border-radius: 18px;
+  padding: 30px;
+  color: #363044;
+  box-shadow: 0 20px 70px #0004;
+  text-align: center;
+}
+
+.ticketModal h2 {
+  font-family: Georgia, serif;
+  letter-spacing: 0.16em;
+  font-size: 23px;
+  margin: 8px 0 20px;
+}
+
+.ticketModalClose {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  border: 0;
+  background: transparent;
+  font-size: 30px;
+  color: #81768c;
+  cursor: pointer;
+}
+
+.ticketModalImage {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px #3a2c501c;
+}
+
+.ticketModalDetails {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  text-align: left;
+  margin-top: 24px;
+}
+
+.ticketModalDetails > div {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.ticketModalDetails span {
+  color: #a49ca8;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+}
+
+.ticketModalDetails strong {
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+
+.ticketModalDetails .ticketModalMemory {
+  grid-column: 1 / -1;
+  border-top: 1px solid #eee9e4;
+  padding-top: 15px;
+}
+
+.ticketModalMemory p {
+  font-size: 13px;
+  line-height: 1.8;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.ticketModalCloseButton {
+  width: 100%;
+  margin-top: 24px;
+  padding: 13px;
+  border: 0;
+  border-radius: 9px;
+  background: #8875bd;
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+@media (max-width: 520px) {
+  .ticketModal {
+    padding: 24px 18px;
   }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
 }

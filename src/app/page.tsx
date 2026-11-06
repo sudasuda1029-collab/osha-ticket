@@ -15,6 +15,7 @@ type SavedTicket = {
   color: string;
   memory: string;
   image: string;
+  photo?: string;
 };
 
 const prefectures = [
@@ -140,6 +141,7 @@ export default function Home() {
   const [event, setEvent] = useState("SPECIAL LIVE 2026");
   const [date, setDate] = useState("2026-11-06");
   const [memory, setMemory] = useState("忘れられない一日。");
+  const [photo, setPhoto] = useState("");
   const [color, setColor] = useState("#a48ae8");
   const [downloading, setDownloading] = useState(false);
   const [savedTickets, setSavedTickets] = useState<SavedTicket[]>([]);
@@ -204,6 +206,56 @@ export default function Home() {
       })
     : "日付未設定";
 
+
+  const handlePhotoChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const input = event.currentTarget;
+    const file = input.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith("image/")) {
+      alert("画像ファイルを選択してください。");
+      input.value = "";
+      return;
+    }
+    if (file.size > 8 * 1024 * 1024) {
+      alert("写真は8MB以下のものを選択してください。");
+      input.value = "";
+      return;
+    }
+
+    try {
+      const result = await new Promise<string>((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onerror = () => reject(new Error("読み込み失敗"));
+        reader.onload = () => {
+          const image = new Image();
+          image.onerror = () => reject(new Error("画像を開けません"));
+          image.onload = () => {
+            const scale = Math.min(1, 1200 / Math.max(image.width, image.height));
+            const canvas = document.createElement("canvas");
+            canvas.width = Math.round(image.width * scale);
+            canvas.height = Math.round(image.height * scale);
+            const context = canvas.getContext("2d");
+            if (!context) {
+              reject(new Error("画像を処理できません"));
+              return;
+            }
+            context.drawImage(image, 0, 0, canvas.width, canvas.height);
+            resolve(canvas.toDataURL("image/jpeg", 0.82));
+          };
+          image.src = String(reader.result);
+        };
+        reader.readAsDataURL(file);
+      });
+      setPhoto(result);
+    } catch (error) {
+      console.error(error);
+      alert("写真を読み込めませんでした。別の画像をお試しください。");
+    } finally {
+      input.value = "";
+    }
+  };
+
   const saveTicket = async () => {
     if (!ticketRef.current || savingTicket) return;
 
@@ -225,6 +277,7 @@ export default function Home() {
         color,
         memory,
         image,
+        photo,
       };
 
       const updated = [ticket, ...savedTickets];
@@ -348,6 +401,24 @@ export default function Home() {
             </div>
           </div>
 
+          <div className={"field photoField"}>
+            <label htmlFor="ticketPhoto">思い出の写真（任意）</label>
+            <input
+              id="ticketPhoto"
+              type="file"
+              accept="image/*"
+              onChange={handlePhotoChange}
+              className={"photoInput"}
+            />
+            <p className={"photoHelp"}>ライブ会場や旅先の写真を追加できます（8MBまで）。</p>
+            {photo && (
+              <div className={"photoPreview"}>
+                <img src={photo} alt="選択した思い出の写真" />
+                <button type="button" onClick={() => setPhoto("")}>写真を削除</button>
+              </div>
+            )}
+          </div>
+
           <div className={"field"}>
             <label htmlFor="memory">思い出のひとこと</label>
             <textarea id="memory" value={memory} onChange={(e) => setMemory(e.target.value)} placeholder="あの日の思い出を一言で..." maxLength={55} rows={3} />
@@ -406,6 +477,12 @@ export default function Home() {
                     <strong>{formattedDate}</strong>
                   </div>
                 </div>
+
+                {photo && (
+                  <div className={"ticketPhotoArea"}>
+                    <img src={photo} alt="この日の思い出の写真" />
+                  </div>
+                )}
 
                 <div className={"patternArea"}>
                   <svg viewBox="0 0 135 135" className={"patternSvg"} aria-label="出発地と目的地の実際の地図">

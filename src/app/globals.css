@@ -385,3 +385,56 @@ html, body {
     padding: 24px 18px;
   }
 }
+
+/* 思い出写真 */
+.photoInput {
+  display: block;
+  width: 100%;
+  margin-top: 8px;
+  padding: 11px;
+  border: 1px dashed #cfc5dc;
+  border-radius: 9px;
+  background: #faf8fc;
+  color: #625a6d;
+  font-size: 12px;
+}
+.photoHelp {
+  margin: 7px 0 0;
+  color: #99919e;
+  font-size: 11px;
+  line-height: 1.6;
+}
+.photoPreview {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 12px;
+}
+.photoPreview img {
+  width: 112px;
+  height: 78px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+.photoPreview button {
+  border: 1px solid #e4dce9;
+  border-radius: 7px;
+  background: white;
+  color: #81768c;
+  padding: 8px 11px;
+  font-size: 11px;
+  cursor: pointer;
+}
+.ticketPhotoArea {
+  margin: 14px 0 4px;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 7px;
+  background: #f3eff6;
+}
+.ticketPhotoArea img {
+  display: block;
+  width: 100%;
+  max-height: 180px;
+  object-fit: cover;
+}
